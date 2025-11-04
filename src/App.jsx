@@ -1,28 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Sections from './components/Sections';
+import Footer from './components/Footer';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [lang, setLang] = useState('id');
+
+  useEffect(() => {
+    document.documentElement.style.scrollBehavior = 'smooth';
+  }, []);
+
+  const toggleLang = () => setLang((l) => (l === 'id' ? 'en' : 'id'));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+    <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-800">
+      <Header lang={lang} onToggleLang={toggleLang} />
+      <main>
+        <Hero lang={lang} />
+        <Sections lang={lang} />
+      </main>
+      <Footer lang={lang} />
 
-export default App
+      {/* floating CTA */}
+      <a href="#contact" className="fixed bottom-6 right-6 inline-flex items-center justify-center rounded-full bg-[#0077b6] text-white shadow-lg hover:shadow-xl w-14 h-14">
+        <span className="sr-only">Contact</span>
+        ✉️
+      </a>
+    </div>
+  );
+}
